@@ -98,7 +98,7 @@ def collect_films_by_tag(tag, collection):
                 else:
                     if r.status_code == 400:
                         print_log('reach access limit, sleep...')
-                        time.sleep(10)
+                        # time.sleep(10)
                     else:
                         print_log('error code: {} & message: {}'
                                   ''.format(r.status_code, r.json['msg']))
