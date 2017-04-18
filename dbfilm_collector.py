@@ -7,7 +7,11 @@ import requests
 
 CONFIG_PATH = './settings.conf'
 BASE_URL = 'https://api.douban.com/v2/'
-TAGS = ('爱情', '喜剧', '剧情', '动画', '科幻', '动作', '经典', '悬疑', '青春',
+# TAGS = ('爱情', '喜剧', '剧情', '动画', '科幻', '动作', '经典', '悬疑', '青春',
+#         '犯罪', '惊悚', '文艺', '搞笑', '励志', '恐怖', '战争', '短片', '魔幻',
+#         '传记', '情色', '感人', '暴力', '家庭', '音乐', '童年', '浪漫', '女性',
+#         '黑帮', '同志', '史诗', '童话', '西部', '动画短片', '黑色幽默', '纪录片')
+TAGS = ('喜剧', '剧情', '动画', '科幻', '动作', '经典', '悬疑', '青春',
         '犯罪', '惊悚', '文艺', '搞笑', '励志', '恐怖', '战争', '短片', '魔幻',
         '传记', '情色', '感人', '暴力', '家庭', '音乐', '童年', '浪漫', '女性',
         '黑帮', '同志', '史诗', '童话', '西部', '动画短片', '黑色幽默', '纪录片')
@@ -113,6 +117,15 @@ def collect_films_by_tag(tag, collection):
     print_log('all films of tag {} collected'.format(tag))
 
 
+def get_film_collection(config, cnx):
+    if 'film_collection' in config.sections():
+        fc_info = config['film_collection']
+        if 'Database' in fc_info.keys() and 'Collection' in fc_info.keys():
+            return cnx[fc_info['Database']][fc_info['Collection']]
+
+    raise RuntimeError('film collection settings is not correct')
+
+
 def insert_films_to_mongo(data, collection):
     for d in data:
         d['id'] = int(d['id'])
@@ -130,7 +143,7 @@ if __name__ == '__main__':
     try:
         configs = get_configs(CONFIG_PATH)
         mdb_cnx = init_mongodb(configs)
-        film_collection = mdb_cnx['db_info']['films']
+        film_collection = get_film_collection(configs, mdb_cnx)
         for tag in TAGS:
             collect_films_by_tag(tag, film_collection)
     except Exception as e:
