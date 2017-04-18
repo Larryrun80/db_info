@@ -7,7 +7,7 @@ import requests
 
 CONFIG_PATH = './settings.conf'
 BASE_URL = 'https://api.douban.com/v2/'
-TAGS = ('爱情', '喜剧', '剧情', '动画', '科幻', '动作', '经典', '悬疑', '青春', 
+TAGS = ('爱情', '喜剧', '剧情', '动画', '科幻', '动作', '经典', '悬疑', '青春',
         '犯罪', '惊悚', '文艺', '搞笑', '励志', '恐怖', '战争', '短片', '魔幻',
         '传记', '情色', '感人', '暴力', '家庭', '音乐', '童年', '浪漫', '女性',
         '黑帮', '同志', '史诗', '童话', '西部', '动画短片', '黑色幽默', '纪录片')
@@ -15,7 +15,8 @@ TAGS = ('爱情', '喜剧', '剧情', '动画', '科幻', '动作', '经典', '�
 
 def print_log(message, m_type='INFO'):
     m_types = ('INFO', 'WARNING', 'ERROR')
-    prefix = '[ {} ]'.format(arrow.now().format('YYYY-MM-DD HH:mm:ss:SSS'))
+    prefix = '[ {} ]'.format(arrow.now('Asia/Shanghai')
+                                  .format('YYYY-MM-DD HH:mm:ss:SSS'))
     if str(m_type).upper() in m_types:
         m_type = str(m_type).upper()
     else:
