@@ -88,7 +88,7 @@ def collect_films_by_tag(tag, collection):
 
         while True:
             try:
-                r = requests.get(r_url)
+                r = requests.get(r_url, timeout=20)
                 if r.status_code == 200:
                     data = r.json()['subjects']
                     if data:
